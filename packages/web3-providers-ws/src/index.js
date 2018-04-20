@@ -57,12 +57,13 @@ if (typeof window !== 'undefined' && typeof window.WebSocket !== 'undefined') {
 
 
 
-var WebsocketProvider = function WebsocketProvider(url, options)  {
+var WebsocketProvider = function WebsocketProvider(url, options, wsOptions)  {
     var _this = this;
     this.responseCallbacks = {};
     this.notificationCallbacks = [];
 
     options = options || {};
+    wsOptions = wsOptions || {};
     this._customTimeout = options.timeout;
 
     // The w3cwebsocket implementation does not support Basic Auth
@@ -75,7 +76,7 @@ var WebsocketProvider = function WebsocketProvider(url, options)  {
         headers.authorization = 'Basic ' + _btoa(parsedURL.username + ':' + parsedURL.password);
     }
 
-    this.connection = new Ws(url, protocol, undefined, headers);
+    this.connection = new Ws(url, protocol, undefined, headers, wsOptions);
 
     this.addDefaultEvents();
 
